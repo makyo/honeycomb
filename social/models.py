@@ -25,14 +25,16 @@ class Comment(models.Model):
     - :model:`publishers.Publisher`
     """
     # Related users
-    owner = models.ForeignKey(User)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
     target_object_owner = models.ForeignKey(
-        User, blank=True, null=True, related_name='comments_by_others')
+        User, blank=True, null=True, related_name='comments_by_others',
+        on_delete=models.CASCADE)
 
     # Related object (submission, publisher page)
-    parent = models.ForeignKey('Comment', blank=True, null=True,
-                               related_name='children')
-    content_type = models.ForeignKey(ContentType)
+    parent = models.ForeignKey(
+        'Comment', blank=True, null=True, related_name='children',
+        on_delete=models.CASCADE)
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField()
     object_model = GenericForeignKey('content_type', 'object_id')
 
@@ -93,10 +95,10 @@ class Rating(models.Model):
     )
 
     # The user rating the submission
-    owner = models.ForeignKey(User)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
 
     # The submission being rated
-    submission = models.ForeignKey(Submission)
+    submission = models.ForeignKey(Submission, on_delete=models.CASCADE)
 
     # The rating
     rating = models.PositiveIntegerField(choices=RATING_CHOICES)
@@ -107,10 +109,10 @@ class Rating(models.Model):
 
 class EnjoyItem(models.Model):
     # The user enjoying the submission
-    owner = models.ForeignKey(User)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
 
     # The submission being enjoyed
-    submission = models.ForeignKey(Submission)
+    submission = models.ForeignKey(Submission, on_delete=models.CASCADE)
 
     # The date the submission was enjoyed
     ctime = models.DateTimeField(auto_now_add=True)

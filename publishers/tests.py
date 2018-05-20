@@ -7,7 +7,7 @@ from django.contrib.auth.models import (
 )
 from django.core.files import File
 from django.core.files.uploadedfile import SimpleUploadedFile
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.test import TestCase
 from submitify.models import Call
 

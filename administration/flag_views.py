@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import (
 )
 from django.contrib.contenttypes.models import ContentType
 from django.contrib import messages
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.db.models import Q
 from django.shortcuts import (
     get_object_or_404,

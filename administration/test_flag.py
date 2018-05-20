@@ -1,6 +1,6 @@
 import mock
 
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.test import tag
 from django.utils import timezone
 from taggit.models import Tag

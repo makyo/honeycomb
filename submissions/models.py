@@ -8,7 +8,7 @@ import tempfile
 
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.fields import GenericRelation
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.db import models
 from django.template.defaultfilters import slugify
 from django.utils.html import strip_tags
@@ -82,7 +82,7 @@ def cover_path(instance, filename):
 class Submission(models.Model):
     """A submission created on the site."""
     # Submission owner
-    owner = models.ForeignKey(User)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
 
     # Title and slug generated from title
     title = models.CharField(max_length=1000)
@@ -255,10 +255,11 @@ class Submission(models.Model):
 class Folder(models.Model):
     """A folder for storing submissions."""
     # Folder owner
-    owner = models.ForeignKey(User)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
 
     # Parent folder
-    parent = models.ForeignKey('Folder', blank=True, null=True)
+    parent = models.ForeignKey(
+        'Folder', blank=True, null=True, on_delete=models.CASCADE)
 
     # Folder name and slug generated from name
     name = models.CharField(max_length=1000)

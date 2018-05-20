@@ -28,10 +28,11 @@ class Promotion(models.Model):
         max_length=1, choices=PROMOTION_TYPE_CHOICES)
 
     # The submission being promoted
-    submission = models.ForeignKey(Submission)
+    submission = models.ForeignKey(Submission, on_delete=models.CASCADE)
 
     # The user promoting the submission
-    promoter = models.ForeignKey(User, blank=True, null=True)
+    promoter = models.ForeignKey(
+        User, blank=True, null=True, on_delete=models.SET_NULL)
 
     # The date the promotion ends
     promotion_end_date = models.DateField(null=True)
@@ -46,7 +47,7 @@ class Event(models.Model):
     """An event such as NaNoWriMo where tagged submissions are promoted to
     the event's page.
     """
-    owner = models.ForeignKey(User)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
     announce_date = models.DateField()
     start_date = models.DateField()
     end_date = models.DateField()
@@ -62,7 +63,7 @@ class Event(models.Model):
 class Ad(models.Model):
     """An advertisement submitted to be displayed on the site"""
     # The ad's owner
-    owner = models.ForeignKey(User)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
 
     # The ad's information
     image = models.ImageField()
@@ -73,10 +74,10 @@ class Ad(models.Model):
 class AdLifecycle(models.Model):
     """A lifecycle for a given ad."""
     # The admin scheduling the ad
-    admin_contact = models.ForeignKey(User)
+    admin_contact = models.ForeignKey(User, on_delete=models.CASCADE)
 
     # The ad to be shown
-    ad = models.ForeignKey(Ad)
+    ad = models.ForeignKey(Ad, on_delete=models.CASCADE)
 
     # Information about the lifecycle
     cost = models.DecimalField(max_digits=5, decimal_places=2)

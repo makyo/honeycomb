@@ -4,7 +4,7 @@ from PIL import Image
 
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.fields import GenericRelation
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.db import models
 from django.template.defaultfilters import slugify
 from django.utils import timezone
@@ -62,8 +62,9 @@ class Publisher(models.Model):
     body_rendered = models.TextField()
 
     # The page owner
-    owner = models.ForeignKey(User, blank=True, null=True,
-                              related_name='owned_publishers')
+    owner = models.ForeignKey(
+        User, blank=True, null=True, related_name='owned_publishers',
+        on_delete=models.SET_NULL)
 
     # Users who have an editorial role with the publisher
     editors = models.ManyToManyField(User, related_name='publishers_editor_of')
@@ -116,7 +117,7 @@ class Publisher(models.Model):
 class NewsItem(models.Model):
     """An item of news from the publisher on their page."""
     publisher = models.ForeignKey(Publisher, on_delete=models.CASCADE)
-    owner = models.ForeignKey(User)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
     ctime = models.DateTimeField(auto_now_add=True)
     mtime = models.DateTimeField(auto_now=True)
     image = models.ImageField(blank=True, upload_to=newsitem_path)

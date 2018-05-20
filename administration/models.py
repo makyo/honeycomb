@@ -5,7 +5,7 @@ import markdown
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.db import models
 
 from honeycomb_markdown import HoneycombMarkdown
@@ -50,9 +50,11 @@ class Application(models.Model):
         (REJECTED, 'Rejected'),
     )
 
-    applicant = models.ForeignKey(User, related_name='applications')
+    applicant = models.ForeignKey(
+        User, related_name='applications', on_delete=models.CASCADE)
     admin_contact = models.ForeignKey(
-        User, null=True, related_name='applications_responsible_for')
+        User, null=True, related_name='applications_responsible_for',
+        on_delete=models.CASCADE)
 
     ctime = models.DateTimeField(auto_now_add=True)
     application_type = models.CharField(max_length=1,
@@ -110,18 +112,19 @@ class Flag(models.Model):
     )
 
     # The object being flagged
-    content_type = models.ForeignKey(ContentType)
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField()
     object_model = GenericForeignKey('content_type', 'object_id')
-    flagged_object_owner = models.ForeignKey(User, blank=True, null=True,
-                                             related_name="flagged_objects")
+    flagged_object_owner = models.ForeignKey(
+        User, blank=True, null=True, related_name="flagged_objects",
+        on_delete=models.CASCADE)
 
     # All participants able to take part in a discussion over a flag
-    participants = models.ManyToManyField(User, blank=True,
-                                          related_name="flags_party_to")
+    participants = models.ManyToManyField(
+        User, blank=True, related_name="flags_party_to")
 
     # The user who flagged the object
-    flagged_by = models.ForeignKey(User)
+    flagged_by = models.ForeignKey(User, on_delete=models.CASCADE)
 
     # Flag information
     flag_type = models.CharField(
@@ -132,8 +135,9 @@ class Flag(models.Model):
         terms of service.""")
     ctime = models.DateTimeField(auto_now_add=True)
     resolved = models.DateTimeField(null=True)
-    resolved_by = models.ForeignKey(User, related_name='resolved_flags',
-                                    null=True)
+    resolved_by = models.ForeignKey(
+        User, related_name='resolved_flags', null=True,
+        on_delete=models.SET_NULL)
     resolution = models.TextField(blank=True)
     subject = models.CharField(max_length=100, help_text="""Briefly describe
     the issue with the content or user. (100 characters)""")
@@ -186,10 +190,11 @@ class Flag(models.Model):
 class Ban(models.Model):
     """Represents a temporary or permanent ban on a user."""
     # The user being banned
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     # The admin who banned the user
-    admin_contact = models.ForeignKey(User, related_name='banned_users')
+    admin_contact = models.ForeignKey(
+        User, related_name='banned_users', on_delete=models.CASCADE)
 
     # The time period of the ban
     start_date = models.DateTimeField(auto_now_add=True)

@@ -10,7 +10,7 @@ import tempfile
 from django.contrib.auth.models import User
 from django.core.files import File
 from django.core.files.storage import Storage
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.test import (
     TestCase,
     override_settings,

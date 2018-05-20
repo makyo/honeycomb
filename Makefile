@@ -8,11 +8,11 @@ help: ## This help.
 
 .PHONY: run
 run: ## Run the development environment from tox.
-	tox -e 3.5-run
+	tox -e 3.6-run
 
 .PHONY: shell
 shell: ## Run the django shell using some additional tools.
-	venv/bin/python manage.py shell_plus
+	venv/bin/python manage.py shell
 
 .PHONY: migrate
 migrate: makemigrations ## Run migrate on the DB, updating schema per migration files.
@@ -72,7 +72,7 @@ update-revno: venv/bin/django-admin ## Update the git revno for non-DEBUG templa
 
 .PHONY: test
 test: ## Rapid test (parallel test running, no coverage)
-	tox -e 3.5-rapidtest
+	tox -e 3.6-rapidtest
 
 .PHONY: testall
 testall: ## Run tests in all available environments.

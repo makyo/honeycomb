@@ -1,7 +1,7 @@
 import random
 
 from django.conf import settings
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.shortcuts import render
 from django.views.decorators.cache import cache_page
 

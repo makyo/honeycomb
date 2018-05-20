@@ -86,7 +86,8 @@ class Activity(models.Model):
 
     activity_time = models.DateTimeField(auto_now_add=True)
     activity_type = models.CharField(max_length=50, choices=ACTIVITY_TYPES)
-    content_type = models.ForeignKey(ContentType, blank=True, null=True)
+    content_type = models.ForeignKey(
+        ContentType, blank=True, null=True, on_delete=models.SET_NULL)
     object_id = models.PositiveIntegerField(blank=True, null=True)
     object_model = GenericForeignKey('content_type', 'object_id')
 

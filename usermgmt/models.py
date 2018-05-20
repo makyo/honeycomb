@@ -187,11 +187,11 @@ class Notification(models.Model):
     )
 
     # The user being notified
-    target = models.ForeignKey(User)
+    target = models.ForeignKey(User, on_delete=models.CASCADE)
 
     # The user doing the action generating the notification
     source = models.ForeignKey(User, related_name='notification_source',
-                               blank=True, null=True)
+                               blank=True, null=True, on_delete=models.CASCADE)
 
     # The type of notification
     notification_type = models.CharField(max_length=1,
@@ -201,8 +201,8 @@ class Notification(models.Model):
     ctime = models.DateTimeField(auto_now_add=True)
 
     # The related submission (if applicable)
-    subject_content_type = models.ForeignKey(ContentType, blank=True,
-                                             null=True)
+    subject_content_type = models.ForeignKey(
+        ContentType, blank=True, null=True, on_delete=models.CASCADE)
     subject_id = models.PositiveIntegerField(blank=True, null=True)
     subject = GenericForeignKey('subject_content_type', 'subject_id')
 

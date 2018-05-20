@@ -164,7 +164,7 @@ INSTALLED_APPS += [
     'submitify',
     'haystack',
     'datetimewidget',
-    'django_extensions',
+    #'django_extensions',
 ]
 MIDDLEWARE = [
     'honeycomb.middleware.BanMiddleware',
